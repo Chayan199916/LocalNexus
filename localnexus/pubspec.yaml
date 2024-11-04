@@ -1,10 +1,15 @@
 name: localnexus
 environment:
   sdk: '>=3.2.0 <4.0.0'
+
+# Configuration options like 'uses-material-design' should be at the root level
+flutter:
+  uses-material-design: true
+
 dependencies:
   flutter:
     sdk: flutter
-  shared_preferences: ^2.0.0  # Add this line
+  shared_preferences: ^2.0.0
   get: ^4.6.6
   flutter_svg: ^2.0.9
   google_fonts: ^6.1.0
@@ -15,4 +20,5 @@ dependencies:
   pdf: ^3.10.8
   path_provider: ^2.1.2
   share_plus: ^6.0.0
-  font_awesome_flutter: ^10.2.0  # Added for additional icons
+  font_awesome_flutter: ^10.2.0
+  flutter_datetime_picker_plus: ^2.0.0

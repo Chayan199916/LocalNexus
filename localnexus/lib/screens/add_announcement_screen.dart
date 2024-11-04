@@ -10,37 +10,60 @@ class AddAnnouncementScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Add Announcement'),
-        backgroundColor: Colors.blueAccent,
-      ),
-      body: Padding(
+    return SingleChildScrollView(
+      child: Container(
         padding: const EdgeInsets.all(16.0),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            Text(
+              'Create New Announcement',
+              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+            ),
+            SizedBox(height: 8),
+            Text(
+              'Share important information with the community.',
+              style: TextStyle(color: Colors.grey[600]),
+            ),
+            SizedBox(height: 16),
             TextField(
               controller: _titleController,
-              decoration: InputDecoration(labelText: 'Title'),
+              decoration: InputDecoration(
+                labelText: 'Announcement Title',
+                hintText: 'Enter announcement title',
+                border: OutlineInputBorder(),
+              ),
             ),
             SizedBox(height: 16),
             TextField(
               controller: _descriptionController,
-              decoration: InputDecoration(labelText: 'Description'),
+              decoration: InputDecoration(
+                labelText: 'Announcement Content',
+                hintText: 'Enter announcement details',
+                border: OutlineInputBorder(),
+              ),
+              maxLines: 5, // Allow multiple lines for content
             ),
             SizedBox(height: 16),
             ElevatedButton(
-              onPressed: () {
-                // Create a new announcement
-                Announcement announcement = Announcement(
-                  title: _titleController.text,
-                  description: _descriptionController.text,
-                );
-                onAdd(announcement); // Call the callback
-                Navigator.pop(context); // Go back to the dashboard
-              },
-              child: Text('Add Announcement'),
-            ),
+                onPressed: () {
+                  // Create a new announcement
+                  Announcement announcement = Announcement(
+                    title: _titleController.text,
+                    description: _descriptionController.text,
+                  );
+                  onAdd(announcement); // Call the callback
+                  Navigator.pop(context); // Go back to the dashboard
+                },
+                child: Text('Create Announcement'),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.black, // Change button color
+                  foregroundColor: Colors.white, // Change text color
+                  padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8), // Rounded corners
+                  ),
+                )),
           ],
         ),
       ),
