@@ -5,26 +5,31 @@ class ActionButton extends StatelessWidget {
   final String label;
   final int? badgeValue;
   final Color? badgeColor;
+  final bool fullWidth;
 
   const ActionButton({
     required this.icon,
     required this.label,
     this.badgeValue,
     this.badgeColor,
+    this.fullWidth = false,
   });
 
   @override
   Widget build(BuildContext context) {
-    return ElevatedButton.icon(
-      onPressed: () {},
-      icon: Icon(icon, size: 20),
-      label: Text(label),
-      style: ElevatedButton.styleFrom(
-        primary: Theme.of(context).colorScheme.secondary,
-        onPrimary: Colors.white,
-        padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(8),
+    return SizedBox(
+      width: fullWidth ? double.infinity : null,
+      child: ElevatedButton.icon(
+        onPressed: () {},
+        icon: Icon(icon, size: 20),
+        label: Text(label),
+        style: ElevatedButton.styleFrom(
+          primary: Theme.of(context).colorScheme.secondary,
+          onPrimary: Colors.white,
+          padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 12),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(8),
+          ),
         ),
       ),
     );

@@ -15,7 +15,8 @@ class OverviewCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
+    return Container(
+      width: double.infinity,
       child: Card(
         child: Padding(
           padding: const EdgeInsets.all(16.0),
