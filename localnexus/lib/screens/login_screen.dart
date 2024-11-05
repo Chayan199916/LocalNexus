@@ -131,7 +131,7 @@ class LoginScreen extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => AdminDashboardScreen()),
+                          builder: (context) => HyperlocalCommunityDashboard()),
                     );
                   },
                   child: Text('Log in',
