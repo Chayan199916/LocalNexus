@@ -22,3 +22,5 @@ dependencies:
   share_plus: ^6.0.0
   font_awesome_flutter: ^10.2.0
   flutter_datetime_picker_plus: ^2.0.0
+  flutter_riverpod: ^1.0.4
+  lucide_icons: ^0.257.0

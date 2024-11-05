@@ -10,11 +10,14 @@ class LoginScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: Color(0xFFF7F6F3), // Soft neutral background
       appBar: AppBar(
-        title: Text('Log in',
-            style: TextStyle(
-                color: Colors.black,
-                fontSize: 24,
-                fontWeight: FontWeight.bold)), // Clean typography
+        title: Text(
+          'Log in',
+          style: TextStyle(
+            color: Colors.black,
+            fontSize: 24,
+            fontWeight: FontWeight.bold,
+          ),
+        ), // Clean typography
         backgroundColor: Colors.transparent, // Transparent app bar
         elevation: 0,
       ),
@@ -42,8 +45,10 @@ class LoginScreen extends StatelessWidget {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Text('Welcome back! Please enter your details.',
-                  style: TextStyle(color: Colors.black54, fontSize: 16)),
+              Text(
+                'Welcome back! Please enter your details.',
+                style: TextStyle(color: Colors.black54, fontSize: 16),
+              ),
               SizedBox(height: 16),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -54,8 +59,10 @@ class LoginScreen extends StatelessWidget {
                     onPressed: () {
                       // Logic for using phone instead
                     },
-                    child: Text('Use phone instead',
-                        style: TextStyle(color: Colors.blue)), // Link for phone
+                    child: Text(
+                      'Use phone instead',
+                      style: TextStyle(color: Colors.blue),
+                    ), // Link for phone
                   ),
                 ],
               ),
@@ -66,7 +73,8 @@ class LoginScreen extends StatelessWidget {
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(12),
                     borderSide: BorderSide(
-                        color: Colors.grey[300]!), // Lighter border color
+                      color: Colors.grey[300]!, // Lighter border color
+                    ),
                   ),
                   filled: true,
                   fillColor: Colors.white,
@@ -83,7 +91,8 @@ class LoginScreen extends StatelessWidget {
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(12),
                     borderSide: BorderSide(
-                        color: Colors.grey[300]!), // Lighter border color
+                      color: Colors.grey[300]!, // Lighter border color
+                    ),
                   ),
                   filled: true,
                   fillColor: Colors.white,
@@ -106,17 +115,19 @@ class LoginScreen extends StatelessWidget {
                       // Handle checkbox state change
                     },
                   ),
-                  Text('Remember me',
-                      style:
-                          TextStyle(color: Colors.black)), // Remember me text
+                  Text(
+                    'Remember me',
+                    style: TextStyle(color: Colors.black),
+                  ), // Remember me text
                   Spacer(),
                   TextButton(
                     onPressed: () {
                       // Handle forgot password
                     },
-                    child: Text("Forgot password?",
-                        style: TextStyle(
-                            color: Colors.blue)), // Forgot password link
+                    child: Text(
+                      "Forgot password?",
+                      style: TextStyle(color: Colors.blue),
+                    ), // Forgot password link
                   ),
                 ],
               ),
@@ -131,11 +142,16 @@ class LoginScreen extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => HyperlocalCommunityDashboard()),
+                        builder: (context) => MaterialApp(
+                          home: CommunityDashboard(),
+                        ),
+                      ),
                     );
                   },
-                  child: Text('Log in',
-                      style: TextStyle(fontSize: 16)), // Clean typography
+                  child: Text(
+                    'Log in',
+                    style: TextStyle(fontSize: 16),
+                  ), // Clean typography
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.blue, // Button color
                     foregroundColor: Colors.white,
@@ -150,14 +166,18 @@ class LoginScreen extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text("Don't have an account? ",
-                      style: TextStyle(color: Colors.black)),
+                  Text(
+                    "Don't have an account? ",
+                    style: TextStyle(color: Colors.black),
+                  ),
                   TextButton(
                     onPressed: () {
                       // Navigate to sign up
                     },
-                    child:
-                        Text("Sign up", style: TextStyle(color: Colors.blue)),
+                    child: Text(
+                      "Sign up",
+                      style: TextStyle(color: Colors.blue),
+                    ),
                   ),
                 ],
               ),
