@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:localnexus/screens/smart_messages_screen.dart';
 import 'package:localnexus/widgets/announcements_tab.dart';
 import 'package:localnexus/widgets/events_tab.dart';
 import 'package:localnexus/widgets/overview_card.dart';
@@ -105,7 +106,12 @@ class CommunityDashboard extends ConsumerWidget {
               title: const Text('Messages'),
               onTap: () {
                 // Navigate to the Messages screen
-                Navigator.pop(context); // Close the drawer
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) =>
+                          SmartMessagesScreen()), // Navigate to Smart Messages
+                );
               },
             ),
             ListTile(
