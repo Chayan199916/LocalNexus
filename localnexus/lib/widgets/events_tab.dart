@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:localnexus/screens/schedule_event_screen.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 
 class EventsTab extends StatelessWidget {
@@ -36,7 +37,19 @@ class EventsTab extends StatelessWidget {
               ),
             ),
             ElevatedButton.icon(
-              onPressed: () {},
+              onPressed: () {
+                showModalBottomSheet(
+                  context: context,
+                  isScrollControlled: true,
+                  builder: (BuildContext context) {
+                    return ScheduleEventScreen(
+                      onAdd: (event) {
+                        print('Added Event: ${event.title}');
+                      },
+                    );
+                  },
+                );
+              },
               icon: const Icon(LucideIcons.plus, size: 20),
               label: const Text('Create Event'),
               style: ElevatedButton.styleFrom(

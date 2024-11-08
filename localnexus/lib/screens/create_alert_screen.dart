@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:localnexus/models/alert.dart';
+import 'package:lucide_icons/lucide_icons.dart';
 
 class CreateAlertScreen extends StatelessWidget {
   final TextEditingController _titleController = TextEditingController();
@@ -15,12 +16,8 @@ class CreateAlertScreen extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.all(16.0),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
           children: [
-            Text(
-              'Create New Alert',
-              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-            ),
             SizedBox(height: 8),
             Text(
               'Provide details for the new safety alert.',
@@ -56,7 +53,8 @@ class CreateAlertScreen extends StatelessWidget {
               hint: Text('Select alert type'),
             ),
             SizedBox(height: 16),
-            ElevatedButton(
+            ElevatedButton.icon(
+              icon: const Icon(LucideIcons.bell, size: 20),
               onPressed: () {
                 // Create a new alert
                 Alert alert = Alert(
@@ -68,7 +66,7 @@ class CreateAlertScreen extends StatelessWidget {
                 onAdd(alert); // Call the callback
                 Navigator.pop(context); // Go back to the dashboard
               },
-              child: Text('Create Alert'),
+              label: Text('New Alert'),
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.black, // Change button color
                 foregroundColor: Colors.white, // Change text color

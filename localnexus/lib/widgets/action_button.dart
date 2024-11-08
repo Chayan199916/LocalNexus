@@ -6,21 +6,22 @@ class ActionButton extends StatelessWidget {
   final int? badgeValue;
   final Color? badgeColor;
   final bool fullWidth;
+  final VoidCallback? onPressed; // Callback for button press
 
-  const ActionButton({
-    required this.icon,
-    required this.label,
-    this.badgeValue,
-    this.badgeColor,
-    this.fullWidth = false,
-  });
+  const ActionButton(
+      {required this.icon,
+      required this.label,
+      this.badgeValue,
+      this.badgeColor,
+      this.fullWidth = false,
+      this.onPressed});
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
       width: fullWidth ? double.infinity : null,
       child: ElevatedButton.icon(
-        onPressed: () {},
+        onPressed: onPressed,
         icon: Icon(icon, size: 20),
         label: Text(label),
         style: ElevatedButton.styleFrom(

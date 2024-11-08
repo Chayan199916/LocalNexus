@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:localnexus/screens/add_announcement_screen.dart';
 import 'package:lucide_icons/lucide_icons.dart';
 
 class AnnouncementsTab extends StatelessWidget {
@@ -36,7 +37,19 @@ class AnnouncementsTab extends StatelessWidget {
               ),
             ),
             ElevatedButton.icon(
-              onPressed: () {},
+              onPressed: () {
+                showModalBottomSheet(
+                  context: context,
+                  isScrollControlled: true,
+                  builder: (BuildContext context) {
+                    return AddAnnouncementScreen(
+                      onAdd: (announcement) {
+                        print('Added Announcement: ${announcement.title}');
+                      },
+                    );
+                  },
+                );
+              },
               icon: const Icon(LucideIcons.plus, size: 20),
               label: const Text('Create Announcement'),
               style: ElevatedButton.styleFrom(

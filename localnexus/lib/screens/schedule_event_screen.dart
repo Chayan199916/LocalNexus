@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker_plus/flutter_datetime_picker_plus.dart'
     as picker;
 import 'package:localnexus/models/event.dart';
+import 'package:lucide_icons/lucide_icons.dart';
 
 class ScheduleEventScreen extends StatelessWidget {
   final TextEditingController _titleController = TextEditingController();
@@ -20,10 +21,6 @@ class ScheduleEventScreen extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Text(
-              'Schedule New Event',
-              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-            ),
             SizedBox(height: 8),
             Text(
               'Add a new event to the community calendar.',
@@ -73,7 +70,8 @@ class ScheduleEventScreen extends StatelessWidget {
               ),
             ),
             SizedBox(height: 16),
-            ElevatedButton(
+            ElevatedButton.icon(
+                icon: const Icon(LucideIcons.calendar, size: 20),
                 onPressed: () {
                   Event event = Event(
                     title: _titleController.text,
@@ -85,7 +83,7 @@ class ScheduleEventScreen extends StatelessWidget {
                   onAdd(event);
                   Navigator.pop(context);
                 },
-                child: Text('Schedule Event'),
+                label: Text('Schedule Event'),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.black, // Change button color
                   foregroundColor: Colors.white, // Change text color

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:localnexus/models/announcement.dart';
+import 'package:lucide_icons/lucide_icons.dart';
 
 class AddAnnouncementScreen extends StatelessWidget {
   final TextEditingController _titleController = TextEditingController();
@@ -14,12 +15,8 @@ class AddAnnouncementScreen extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.all(16.0),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
           children: [
-            Text(
-              'Create New Announcement',
-              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-            ),
             SizedBox(height: 8),
             Text(
               'Share important information with the community.',
@@ -45,7 +42,8 @@ class AddAnnouncementScreen extends StatelessWidget {
               maxLines: 5, // Allow multiple lines for content
             ),
             SizedBox(height: 16),
-            ElevatedButton(
+            ElevatedButton.icon(
+                icon: const Icon(LucideIcons.megaphone, size: 20),
                 onPressed: () {
                   // Create a new announcement
                   Announcement announcement = Announcement(
@@ -55,7 +53,7 @@ class AddAnnouncementScreen extends StatelessWidget {
                   onAdd(announcement); // Call the callback
                   Navigator.pop(context); // Go back to the dashboard
                 },
-                child: Text('Create Announcement'),
+                label: Text('New Announcement'),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.black, // Change button color
                   foregroundColor: Colors.white, // Change text color

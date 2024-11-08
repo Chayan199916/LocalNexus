@@ -5,7 +5,6 @@ import 'package:localnexus/widgets/announcements_tab.dart';
 import 'package:localnexus/widgets/events_tab.dart';
 import 'package:localnexus/widgets/overview_card.dart';
 import 'package:lucide_icons/lucide_icons.dart';
-import 'package:localnexus/widgets/action_button.dart';
 import 'package:localnexus/widgets/alerts_tab.dart';
 
 final refreshingProvider = StateProvider<bool>((ref) => false);
@@ -207,70 +206,6 @@ class CommunityDashboard extends ConsumerWidget {
                           icon: LucideIcons.calendar,
                           value: 3,
                           color: Colors.green,
-                        ),
-                      ),
-                    ],
-                  ),
-            const SizedBox(height: 16),
-            // Action Buttons Section with Responsive Layout
-            isSmallScreen
-                ? Column(
-                    children: [
-                      ActionButton(
-                        icon: LucideIcons.bell,
-                        label: 'New Alert',
-                        badgeValue: 0,
-                        badgeColor: Colors.transparent,
-                        fullWidth: true,
-                      ),
-                      const SizedBox(height: 16),
-                      ActionButton(
-                        icon: LucideIcons.megaphone,
-                        label: 'New Announcement',
-                        badgeValue: 0,
-                        badgeColor: Colors.transparent,
-                        fullWidth: true,
-                      ),
-                      const SizedBox(height: 16),
-                      ActionButton(
-                        icon: LucideIcons.calendar,
-                        label: 'New Event',
-                        badgeValue: 0,
-                        badgeColor: Colors.transparent,
-                        fullWidth: true,
-                      ),
-                    ],
-                  )
-                : Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Expanded(
-                        child: ActionButton(
-                          icon: LucideIcons.bell,
-                          label: 'New Alert',
-                          badgeValue: 0,
-                          badgeColor: Colors.transparent,
-                          fullWidth: true,
-                        ),
-                      ),
-                      const SizedBox(width: 16),
-                      Expanded(
-                        child: ActionButton(
-                          icon: LucideIcons.megaphone,
-                          label: 'New Announcement',
-                          badgeValue: 0,
-                          badgeColor: Colors.transparent,
-                          fullWidth: true,
-                        ),
-                      ),
-                      const SizedBox(width: 16),
-                      Expanded(
-                        child: ActionButton(
-                          icon: LucideIcons.calendar,
-                          label: 'New Event',
-                          badgeValue: 0,
-                          badgeColor: Colors.transparent,
-                          fullWidth: true,
                         ),
                       ),
                     ],
