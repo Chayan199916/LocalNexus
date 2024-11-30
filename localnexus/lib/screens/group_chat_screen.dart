@@ -1,4 +1,11 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:localnexus/models/message.dart';
+import 'package:localnexus/services/nlp_service.dart';
+import 'package:localnexus/widgets/message_bubble.dart';
+import 'package:localnexus/widgets/summary_card.dart';
+import 'package:localnexus/widgets/summary_detail_sheet.dart';
 
 class GroupChatScreen extends StatefulWidget {
   @override
@@ -6,16 +13,152 @@ class GroupChatScreen extends StatefulWidget {
 }
 
 class _GroupChatScreenState extends State<GroupChatScreen> {
-  final List<String> messages = []; // List to hold chat messages
+  final List<dynamic> chatItems = []; // Can contain Message or ChatSummary
   final TextEditingController _controller = TextEditingController();
+  final NLPService _nlpService = NLPService();
+  Timer? _summaryTimer;
 
-  void _sendMessage() {
+  @override
+  void initState() {
+    super.initState();
+    _startSummaryTimer();
+  }
+
+  @override
+  void dispose() {
+    _summaryTimer?.cancel();
+    super.dispose();
+  }
+
+  void _startSummaryTimer() {
+    // Create hourly summaries
+    _summaryTimer = Timer.periodic(const Duration(hours: 1), (_) {
+      _createHourlySummary();
+    });
+  }
+
+  Future<void> _createHourlySummary() async {
+    final List<Message> lastHourMessages = _getLastHourMessages();
+    if (lastHourMessages.isEmpty) return;
+
+    final summary = await _nlpService.createSummary(
+      messages: lastHourMessages,
+      type: SummaryType.hourly,
+    );
+
+    setState(() {
+      // Replace messages with summary
+      chatItems.removeWhere(
+          (item) => item is Message && lastHourMessages.contains(item));
+      chatItems.add(summary);
+    });
+  }
+
+  void _sendMessage() async {
     if (_controller.text.isNotEmpty) {
+      final newMessage = Message(
+        id: DateTime.now().toString(),
+        content: _controller.text,
+        timestamp: DateTime.now(),
+        senderId: 'current_user_id',
+        senderName: 'Current User',
+      );
+
+      // Process message with NLP
+      final nlpMetadata = await _nlpService.processMessage(newMessage);
+      final enrichedMessage = Message(
+        id: newMessage.id,
+        content: newMessage.content,
+        timestamp: newMessage.timestamp,
+        senderId: newMessage.senderId,
+        senderName: newMessage.senderName,
+        nlpMetadata: nlpMetadata,
+        isImportant: nlpMetadata['importance_score'] > 0.7,
+      );
+
       setState(() {
-        messages.add(_controller.text); // Add message to the list
-        _controller.clear(); // Clear the input field
+        chatItems.add(enrichedMessage);
+        _controller.clear();
       });
     }
+  }
+
+  List<Message> _getLastHourMessages() {
+    final oneHourAgo = DateTime.now().subtract(Duration(hours: 1));
+    return chatItems
+        .whereType<Message>()
+        .where((msg) => msg.timestamp.isAfter(oneHourAgo))
+        .toList();
+  }
+
+  void _showSummaryOptions(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      builder: (context) => Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          ListTile(
+            leading: Icon(Icons.access_time),
+            title: Text('Generate Hourly Summary'),
+            onTap: () {
+              Navigator.pop(context);
+              _createHourlySummary();
+            },
+          ),
+          ListTile(
+            leading: Icon(Icons.calendar_today),
+            title: Text('Generate Daily Summary'),
+            onTap: () async {
+              Navigator.pop(context);
+              final summary = await _nlpService.createSummary(
+                messages: chatItems.whereType<Message>().toList(),
+                type: SummaryType.daily,
+              );
+              setState(() {
+                chatItems.add(summary);
+              });
+            },
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _showMessageOptions(BuildContext context, Message message) {
+    showModalBottomSheet(
+      context: context,
+      builder: (context) => Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          ListTile(
+            leading: Icon(Icons.copy),
+            title: Text('Copy Message'),
+            onTap: () {
+              // Copy message to clipboard
+              Navigator.pop(context);
+            },
+          ),
+          if (message.isImportant)
+            ListTile(
+              leading: Icon(Icons.star_border),
+              title: Text('Remove from Important'),
+              onTap: () {
+                Navigator.pop(context);
+                // Implement importance toggle
+              },
+            )
+          else
+            ListTile(
+              leading: Icon(Icons.star),
+              title: Text('Mark as Important'),
+              onTap: () {
+                Navigator.pop(context);
+                // Implement importance toggle
+              },
+            ),
+        ],
+      ),
+    );
   }
 
   @override
@@ -33,44 +176,32 @@ class _GroupChatScreenState extends State<GroupChatScreen> {
         ), // Chat title with clean typography
         elevation: 0,
         iconTheme: IconThemeData(color: Colors.black),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.summarize),
+            onPressed: () => _showSummaryOptions(context),
+          ),
+        ],
       ),
       body: Column(
         children: [
           Expanded(
             child: ListView.builder(
               padding: EdgeInsets.symmetric(vertical: 16.0),
-              itemCount: messages.length,
+              itemCount: chatItems.length,
               itemBuilder: (context, index) {
-                return Padding(
-                  padding: const EdgeInsets.symmetric(
-                      vertical: 8.0, horizontal: 16.0),
-                  child: Align(
-                    alignment: Alignment
-                        .centerLeft, // Left-aligned messages for simplicity
-                    child: Container(
-                      padding: EdgeInsets.symmetric(
-                          horizontal: 16.0, vertical: 12.0),
-                      decoration: BoxDecoration(
-                        color: Colors.grey[100],
-                        borderRadius: BorderRadius.circular(20),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.black26,
-                            offset: Offset(2, 2),
-                            blurRadius: 6,
-                          ),
-                        ],
-                      ),
-                      child: Text(
-                        messages[index],
-                        style: TextStyle(
-                          fontSize: 16,
-                          color: Colors.black,
-                          fontWeight: FontWeight.w400,
-                        ),
-                      ),
-                    ),
-                  ),
+                final item = chatItems[index];
+
+                if (item is ChatSummary) {
+                  return SummaryCard(
+                    summary: item,
+                    onTap: () => _showDetailedSummary(context, item),
+                  );
+                }
+
+                return MessageBubble(
+                  message: item as Message,
+                  onLongPress: () => _showMessageOptions(context, item),
                 );
               },
             ),
@@ -150,6 +281,14 @@ class _GroupChatScreenState extends State<GroupChatScreen> {
           ),
         ],
       ),
+    );
+  }
+
+  void _showDetailedSummary(BuildContext context, ChatSummary summary) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      builder: (context) => SummaryDetailSheet(summary: summary),
     );
   }
 }
